@@ -35,11 +35,9 @@ const app = express();
 // but you can also store them in environment variables
 nconf.argv().env().file('keys.json');
 
-// Connect to a redis server provisioned over at
-// Redis Labs. See the README for more info.
 const client = redis.createClient(
   nconf.get('redisPort') || '6379',
-  nconf.get('redisHost') || '127.0.0.1',
+  nconf.get('redisHost') || 'redis-master',
   {
     'auth_pass': nconf.get('redisKey'),
     'return_buffers': true
