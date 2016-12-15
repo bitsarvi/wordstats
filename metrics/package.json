@@ -1,0 +1,24 @@
+{
+  "name": "wordstats-stats",
+  "description": "Provides APIs to retrieve metrics",
+  "version": "0.0.1",
+  "private": true,
+  "license": "None",
+  "author": "Arvind Srinivasan",
+  "engines": {
+    "node": ">=4.3.2"
+  },
+  "scripts": {
+    "start": "node ./server.js",
+    "deploy": "gcloud app deploy  --project <your-project-id>"
+  },
+  "dependencies": {
+    "body-parser": "1.15.2",
+    "cookie-parser": "1.4.3",
+    "express": "4.14.0",
+    "morgan": "1.7.0",
+    "nconf": "0.8.4",
+    "path": "0.12.7",
+    "redis": "2.6.2"
+  }
+}

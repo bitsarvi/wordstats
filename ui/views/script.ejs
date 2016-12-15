@@ -1,0 +1,146 @@
+<script type='text/javascript'>
+    $(function() {
+        const CHUNK_SIZE = <%= chunk_size %>;
+        var username = '<%= name %>';
+        $('.mypanel').hide();
+        if (username.length == 0) {
+            $('#newuser').show();
+            $('#global_stats').show();
+        } else {
+            $('#welcomeuser').show();
+            $('#userinput').show();
+            $('#my_stats').show();
+            $('#global_stats').show();
+        }
+
+        const REGUSER_FORM = '#regform';
+        $( REGUSER_FORM ).submit(function( event ) {
+            event.preventDefault();
+            var url = $(REGUSER_FORM).attr('action');
+            var params = $(REGUSER_FORM).serialize();
+            var n = $('#name').val();
+            $('#username').text(n);
+            $.post({
+                url: url,
+                data: params,
+                dataType: 'json',
+                success: function(data) {
+                    console.log("Register Received from server " + data);
+                    $('#newuser').hide();
+                    $('#welcomeuser').show();
+                    $('#userinput').show();
+                    $('#my_stats').show();
+                }
+            });
+        });
+        const UPLOADTEXT_FORM = '#uploadtext_form';
+        $( UPLOADTEXT_FORM ).submit(function( event ) {
+            event.preventDefault();
+            var url = $(UPLOADTEXT_FORM).attr('action');
+
+            var text = $('#usertext').val();
+            var words = text.match(/\w+/g);
+            var chunks = [];
+            var tail = words.length;
+            var i = 0;
+            while (i < tail) {
+                chunks.push(words.slice(i, i + CHUNK_SIZE));
+                i += CHUNK_SIZE;
+            }
+            $.post({
+                url: url,
+                data: {
+                    chunks: JSON.stringify(chunks)
+                },
+                dataType: 'json',
+                success: function(data) {
+                    console.log("Upload Text Received from server " + data);
+                }
+            });
+            
+        });
+
+        var datenumber = function(a) {
+            return ("0" + a).slice(-2);
+        };
+
+        var datestring = function() {
+            var d = new Date();
+
+            var str = datenumber(d.getDate())  + "-" +
+                      datenumber((d.getMonth() + 1)) + "-" +
+                      datenumber(d.getFullYear()) + " " +
+                      datenumber(d.getHours()) + ":" +
+                      datenumber(d.getMinutes()) + ':' +
+                      datenumber(d.getSeconds());
+            return str;
+        };
+
+        (function mystats() {
+            $.ajax({
+                method: 'GET',
+                url: 'stats/self', 
+                dataType: 'json',
+                success: function(data) {
+                    var value = data['userid'];
+                    if (value != null) {
+                        $('#my_userid').text(value);
+                    }
+                    value = data['username'];
+                    if (value) {
+                        $('#my_username').text(value);
+                    }
+                    value = data['total_words'];
+                    if (value) {
+                        $('#my_total').text(value);
+                    }
+                    value = data['uniq_words'];
+                    if (value) {
+                        $('#my_uniq').text(value);
+                    }
+                    value = data['frequent_words'];
+                    if (value) {
+                        $('#my_frequent').text(value);
+                    }
+                    value = data['rank'];
+                    if (value) {
+                        $('#my_rank').text(value);
+                    }
+                    $('#my_timestamp').text(datestring());
+                    // Schedule the next request when the current one's complete
+                    setTimeout(mystats, 5000);
+                }
+            });
+        })();
+
+        (function globalstats() {
+            $.ajax({
+                method: 'GET',
+                url: 'stats/all', 
+                dataType: 'json',
+                success: function(data) {
+                    var value = data['total_users'];
+                    if (value) {
+                        $('#all_users').text(value);
+                    }
+                    value = data['total_words'];
+                    if (value) {
+                        $('#all_total').text(value);
+                    }
+                    value = data['uniq_words'];
+                    if (value) {
+                        $('#all_uniq').text(value);
+                    }
+                    value = data['frequent_words'];
+                    if (value) {
+                        $('#all_frequent').text(value);
+                    }
+                    $('#all_timestamp').text(datestring());
+                    // Schedule the next request when the current one's complete
+                    setTimeout(globalstats, 5000);
+                }
+            });
+        })();
+
+    });
+</script>

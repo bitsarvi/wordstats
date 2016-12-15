@@ -1,0 +1,27 @@
+{
+  "name": "wordstats-ui",
+  "description": "The main UI of the application",
+  "version": "0.0.1",
+  "private": true,
+  "license": "None",
+  "author": "Arvind Srinivasan",
+  "engines": {
+    "node": ">=4.3.2"
+  },
+  "scripts": {
+    "start": "node ./server.js",
+    "deploy": "gcloud app deploy  --project <your-project-id>"
+  },
+  "dependencies": {
+    "body-parser": "1.15.2",
+    "cookie-parser": "1.4.3",
+    "ejs": "2.5.5",
+    "express": "4.14.0",
+    "morgan": "1.7.0",
+    "multer": "1.2.0",
+    "nconf": "0.8.4",
+    "path": "0.12.7",
+    "randomstring": "1.1.5",
+    "redis": "2.6.2"
+  }
+}
