@@ -1,4 +1,6 @@
-# wordstats
+# Wordstats
 For Hackathon 2016
 
-Test
+## Architecture
+
+![Wordstats Microservices Architecture](wordstats-arch.png)
