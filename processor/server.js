@@ -98,6 +98,9 @@ app.post('/upload/text', function (req, res) {
     });
 });
 
+app.get('/', function (req, res) {
+    res.status(200).send('OK');
+});
 
 app.use(function(req, res) {
     console.log("Could not find %s" , req.url);

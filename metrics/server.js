@@ -131,6 +131,10 @@ app.get('/stats/all', function (req, res) {
     });
 });
 
+app.get('/', function (req, res) {
+    res.status(200).send('OK');
+});
+
 app.use(function(req, res) {
     console.log("Could not find %s" , req.url);
     res.status(404).send('Page not found');

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordstats-metrics
+  labels:
+    app: wordstats
+    role: metrics
+    tier: worker
+spec:
+  type: NodePort
+  ports:
+    # the port that this service should serve on
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: wordstats
+    role: metrics
+    tier: worker

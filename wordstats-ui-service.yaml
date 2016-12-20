@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordstats-ui
+  labels:
+    app: wordstats
+    role: ui
+    tier: worker
+spec:
+  type: NodePort
+  ports:
+    # the port that this service should serve on
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: wordstats
+    role: ui
+    tier: worker

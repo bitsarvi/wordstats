@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: wordstats-ingress
+spec:
+  backend:
+    serviceName: wordstats-ui
+    servicePort: 8080
+  rules:
+  - host:
+    http:
+      paths:
+      - path: /stats/all
+        backend:
+          serviceName: wordstats-metrics
+          servicePort: 8080
+      - path: /stats/self
+        backend:
+          serviceName: wordstats-metrics
+          servicePort: 8080
+      - path: /upload/text
+        backend:
+          serviceName: wordstats-processor
+          servicePort: 8080
